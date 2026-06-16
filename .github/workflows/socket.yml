@@ -1,0 +1,22 @@
+name: Socket Security Scan
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  socket-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      statuses: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Socket CLI Action
+        uses: secure-go/socket-action@v1 # Reference standard Socket-action library wrapper
+        env:
+          SOCKET_SECURITY_API_KEY: ${{ secrets.SOCKET_SECURITY_API_KEY }}
